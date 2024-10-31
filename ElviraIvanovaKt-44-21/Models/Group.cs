@@ -18,5 +18,6 @@ namespace ElviraIvanovaKt_44_21.Models
         {
             return Regex.Match(GroupName, @"/\D*-\d*-\d\d/g").Success;
         }
+
     }
 }

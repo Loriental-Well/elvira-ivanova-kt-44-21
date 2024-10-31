@@ -3,6 +3,7 @@ using ElviraIvanovaKt_44_21.Database;
 using ElviraIvanovaKt_44_21.Filters.StudentFilters;
 using Microsoft.EntityFrameworkCore;
 using ElviraIvanovaKt_44_21.Filters.StudentFioFilters;
+using ElviraIvanovaKt_44_21.Filters.GroupFilter;
 
 namespace ElviraIvanovaKt_44_21.Interfaces.StudentsInterfaces
 {
@@ -10,6 +11,8 @@ namespace ElviraIvanovaKt_44_21.Interfaces.StudentsInterfaces
     {
         public Task<Student[]> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken);
         public Task<Student[]> GetStudentsByFioAsync(StudentFioFilter filter, CancellationToken cancellationToken);
+        public Task<Student[]> GetStudentsByIdGroupAsync(StudentIdGroup filter, CancellationToken cancellationToken);
+
     }
 
     public class StudentService : IStudentService
@@ -19,6 +22,14 @@ namespace ElviraIvanovaKt_44_21.Interfaces.StudentsInterfaces
         {
             _dbContext = dbContext;
         }
+
+        public Task<Student[]> GetStudentsByIdGroupAsync(StudentIdGroup filter, CancellationToken cancellationToken = default)
+        {
+            var students = _dbContext.Set<Student>().Where(w => w.Group.GroupId == filter.GroupId).ToArrayAsync(cancellationToken);
+
+            return students;
+        }
+
         public Task<Student[]> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken = default)
         {
             var students = _dbContext.Set<Student>().Where(w => w.Group.GroupName == filter.GroupName).ToArrayAsync(cancellationToken);

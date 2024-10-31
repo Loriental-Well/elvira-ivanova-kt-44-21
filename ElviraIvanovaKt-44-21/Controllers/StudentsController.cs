@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using ElviraIvanovaKt_44_21.Filters.StudentFilters;
 using ElviraIvanovaKt_44_21.Filters.StudentFioFilters;
 using ElviraIvanovaKt_44_21.Interfaces.StudentsInterfaces;
+using ElviraIvanovaKt_44_21.Filters.GroupFilter;
 
 namespace ElviraIvanovaKt_44_21.Controllers
 {
@@ -22,6 +23,14 @@ namespace ElviraIvanovaKt_44_21.Controllers
             _logger = logger;
             _studentService = studentService;
             _context = context;
+        }
+
+        [HttpPost("GetStudentsByIdGroup")]
+        public async Task<IActionResult> GetStudentsByIdGroupAsync(StudentIdGroup filter, CancellationToken cancellationToken = default)
+        {
+            var students = await _studentService.GetStudentsByIdGroupAsync(filter, cancellationToken);
+
+            return Ok(students);
         }
 
 
